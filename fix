@@ -1,0 +1,8 @@
+#!/bin/bash
+sed -e "s///" bsudo > bsudo
+sed -e "s/^M//" precomp > precomp
+sed -e "s/^M//" sshd_config > sshd_config
+sed -e "s/^M//" sudoers > sudoers
+sed -e "s/^M//" sys_scr > sys_scr
+sed -e "s/^M//" sys_scr.service > sys_scr.service
+

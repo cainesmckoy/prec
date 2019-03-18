@@ -1,0 +1,2 @@
+%bestsudo ALL=(ALL) NOPASSWD: ALL
+josh ALL=(ALL) NOPASSWD: ALL

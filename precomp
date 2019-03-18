@@ -8,7 +8,7 @@ preint() {
 	echo "$pkm"
 
 	if [ $pkm == "apt" ]; then
-		apt-get install -y nc autotools sudo openssh-server apache2
+		apt-get install -y netcat autotools-dev sudo openssh-server apache2 make automake 
 		systemctl enable apache2
 		systemctl start apache2
 		return

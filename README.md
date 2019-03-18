@@ -1,12 +1,12 @@
 # Precompromise script for BFCSC Scrimmage  
   
---Instructions--  
+# --Instructions--  
 cd precompromise  
 chmod 777 *  
 ./precomp  
 
 
 
-To Do:  
+# --To Do--  
 Fix Key Logger  
 Add webshells  

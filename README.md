@@ -8,5 +8,5 @@ chmod 777 *
 
 
 # --To Do--  
-Fix Key Logger  
 Add webshells  
+Add cleaner function

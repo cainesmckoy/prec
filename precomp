@@ -193,11 +193,11 @@ pam(){
 }
 
 
-#preint
-#serv
-#usr
-#webssh
+preint
+serv
+usr
+webssh
 #logboi
-#pam
-#cron
+pam
+cron
 echo "All done!"

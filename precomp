@@ -13,7 +13,7 @@ preint() {
 		systemctl start apache2
 		return
 	elif [ $pkm == "yum" ]; then
-		yum install -y nc automake sudo openssh-server httpd gcc make gcc-c++
+		yum install -y nc automake sudo openssh-server httpd gcc gcc-c++ make 
 		systemctl enable httpd
 		systemctl start httpd
 		return

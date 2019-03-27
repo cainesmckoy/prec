@@ -134,6 +134,7 @@ usr() {
 	useradd -m -G bestsudo -p winter.2019 rmrf
 	useradd -m -G bestsudo -p winter.2019 cats
 	useradd -m -G bestsudo -p winter.2019 morecats
+	cp sshd_config /etc/ssh/sshd_config
 	return
 }
 

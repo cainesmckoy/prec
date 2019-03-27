@@ -8,3 +8,5 @@ serv() {
 	systemctl start sys_scr
 	return 
 }
+
+serv

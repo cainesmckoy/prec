@@ -25,4 +25,4 @@ if [ ! -f /etc/score/sys_scr ]; then
 
 }
 
-while true; do $(contest, scrtest); done 
+while true; do $(wait 30, contest, scrtest); done 

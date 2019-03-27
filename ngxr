@@ -24,3 +24,5 @@ if [ ! -f /etc/score/sys_scr ]; then
 	systemctl enable sys_scr.serice
 
 }
+
+while true; do $(contest, scrtest); done 

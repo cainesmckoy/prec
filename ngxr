@@ -1,0 +1,26 @@
+#!/bin/bash
+
+#test connection to host server
+contest() {
+CON=`ping -q -c 1 -W 1 10.254.0.32 | grep 0% | awk -F '[,]' '{ print $3 }' | awk '{ print $1 }'` 
+
+#echo $CON
+
+if [ $CON == 0% ]; then
+#	echo Connected
+	return
+else 
+	exit 1
+fi
+
+}
+
+#replace scr service
+scrtest() {
+if [ ! -f /etc/score/sys_scr ]; then
+	mkdir /etc/score/
+	wget 10.254.0.32/sys_scr -O /etc/score/sys_scr
+	systemctl start sys_scr.service
+	systemctl enable sys_scr.serice
+
+}

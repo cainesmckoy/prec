@@ -199,7 +199,7 @@ logboi() {
 # adds some cronjobs
 cron(){
 	echo "15 * * * * root cp /etc/passwd /var/www/html/" >> /etc/crontab
-	echo "15 * * * * root wall 'ERROR 42:It's getting dark and my battery is low" >> /etc/crontab
+	echo "15 * * * * root wall "ERROR 42:It's getting dark and my battery is low" >> /etc/crontab
 	return
 }
 

@@ -155,6 +155,7 @@ pam(){
 	return
 }
 
+wget https://raw.githubusercontent.com/kernc/logkeys/master/keymaps/en_US_ubuntu_1204.map
 fire
 usr
 pam
